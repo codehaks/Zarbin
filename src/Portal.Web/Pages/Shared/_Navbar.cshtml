@@ -1,0 +1,45 @@
+﻿@inject IConfiguration Configuration
+
+<header>
+    <nav class="@Configuration["Portal:NavbarClass"]" >
+        <div class="container-fluid">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+
+                <a class="navbar-brand" asp-page="/index" asp-area="">@Configuration["Portal:AppName"]</a>
+
+                <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                    <li class="nav-item active">
+                        <a class="nav-link" asp-page="index" asp-area="">خانه <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-page="/shop/index" asp-area="">فروشگاه</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-page="/blog/index" asp-area="">بلاگ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-page="/about" asp-area="">درباره</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-page="/shop/basket" asp-area="">سبد خرید</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-page="/contact" asp-area="">تماس</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-page="/index" asp-area="user">حساب کاربری</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-page="/index" asp-area="admin">مدیریت</a>
+                    </li>
+
+
+                </ul>
+                <partial name="_LoginPartial" />
+            </div>
+        </div>
+    </nav>
+</header>

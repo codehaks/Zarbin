@@ -1,0 +1,65 @@
+﻿@page
+@model Portal.Web.EditModel
+
+@{
+    ViewData["Title"] = "ویرایش پست";
+}
+
+<div class="row">
+    <div class="col">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Post.Id" />
+            <input type="hidden" asp-for="Post.TimeCreated" />
+            <input type="hidden" asp-for="Post.Hits" />
+            <div class="form-group">
+                <label asp-for="Post.Name" class="control-label"></label>
+                <input asp-for="Post.Name" class="form-control" />
+                <span asp-validation-for="Post.Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Post.Summary" class="control-label"></label>
+                <input asp-for="Post.Summary" class="form-control" />
+                <span asp-validation-for="Post.Summary" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Post.ImageUrl" class="control-label"></label>
+                <input asp-for="Post.ImageUrl" class="form-control" />
+                <span asp-validation-for="Post.ImageUrl" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Post.Body" class="control-label"></label>
+                <textarea asp-for="Post.Body" class="form-control"></textarea>
+                <span asp-validation-for="Post.Body" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Post.Tags" class="control-label"></label>
+                <input asp-for="Post.Tags" class="form-control" />
+                <span asp-validation-for="Post.Tags" class="text-danger"></span>
+            </div>
+
+            <div class="form-group form-check">
+
+                <label class="form-check-label" asp-for="Post.IsPublished">
+                    @Html.DisplayNameFor(model => model.Post.IsPublished)
+                </label>
+                <input class="form-check-input" asp-for="Post.IsPublished" />
+            </div>
+            <div class="form-group">
+                <input type="submit" value="ذخیره تغییرات" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index">بازگشت به لیست</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/lib/ckeditor/ckeditor.js"></script>
+    <script>
+        CKEDITOR.replace('Post_Body');
+    </script>
+}

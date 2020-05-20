@@ -1,0 +1,28 @@
+﻿@page
+@model Portal.Web.Areas.Admin.Pages.Docs.DeleteModel
+
+@{
+    ViewData["Title"] = "حذف فایل";
+}
+
+
+<h3>آیا از حذف این فایل اطمینان دارید؟</h3>
+
+<div>
+
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Doc.FileName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Doc.FileName)
+        </dd>
+      
+    </dl>
+    
+    <form method="post">
+        <input type="hidden" asp-for="Doc.Id" />
+        <input type="submit" value="حذف شود" class="btn btn-danger" /> |
+        <a asp-page="./Index">بازگشت به لیست</a>
+    </form>
+</div>

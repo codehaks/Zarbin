@@ -1,0 +1,11 @@
+﻿@page
+@model Portal.Web.Pages.AboutModel
+@{
+    ViewData["Title"] = Model.Panel.Title;
+}
+<a class="btn btn-outline-primary" asp-page="/webpages/edit" asp-area="admin" asp-route-id="About">
+    <i class="fa fa-edit"></i>
+</a>
+
+@Html.Raw(Model.Panel.Body)
+

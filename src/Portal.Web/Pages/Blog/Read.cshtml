@@ -1,0 +1,145 @@
+﻿@page "/blog/{id}/{*slug}"
+@model Portal.Web.Pages.Blog.ReadModel
+@{
+    ViewBag.Title = Model.Output.Name;
+    ViewData["description"] = HtmlEncoder.Encode(Model.Output.Name);
+    ViewData["image"] = Model.Output.ImageUrl;
+    var userAuth = (bool)ViewData["userAuth"];
+}
+
+<div class="row">
+    <div class="col-sm-1"></div>
+    <div class="col-sm-7">
+        <div class="card">
+            <div class="card-body bg-primary" >
+
+                <h1 style="color:white">
+                    بلاگ
+                </h1>
+            </div>
+
+            <div class="card-body">
+                <a asp-page="/blog/read" asp-route-id="@Model.Output.Id" asp-route-slug="@(Model.Output.Name.ToSlug()+".html")">
+                    <h1 style="line-height: 60px">
+
+                        @ViewBag.Title
+                    </h1>
+                </a>
+                <hr />
+
+                <a asp-page="/blog/read" asp-route-id="@Model.Output.Id" asp-route-slug="@(Model.Output.Name.ToSlug()+".html")">
+                    <img src="@Model.Output.ImageUrl" class="img-fluid" alt="@Model.Output.Name" />
+                </a>
+                @Html.Raw(Model.Output.Body)
+
+            </div>
+            <div class="card-header">نظرها</div>
+            <div id="app">
+
+
+                <ul class="list-group" style="padding-right:0">
+                    <li v-for="comment in comments" class="list-group-item">
+                        <blockquote>
+                            <p style="font-size:12px;">{{comment.body}}</p>
+                        </blockquote>
+                        <p class="text-left"><small><em>{{comment.userName}}</em></small></p>
+
+                    </li>
+                    @if (userAuth)
+                    {
+
+                        <li class="list-group-item" v-show="canComment">
+                            <textarea v-model="commentBody" class="form-control"></textarea>
+                            <br />
+                            <button type="button" class="btn btn-primary" v-on:click="sendComment">ارسال</button>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="list-group-item" v-show="canComment">
+                            <p>جهت ثبت نظر ابتدا وارد شوید</p>
+                        </li>
+                    }
+                </ul>
+
+            </div>
+            <div class="card-header">مطالب قبلی</div>
+
+            @*@await Component.InvokeAsync("BlogPostList", new { skip = 0 })*@
+        </div>
+    </div>
+    <div class="col-sm-3">
+        <br />
+        <div class="card panel-primary">
+            <div class="card-header">فروشگاه</div>
+            <div class="card-body">
+                @*@await Component.InvokeAsync("CourseList", new { viewName = "List", count = 3 })*@
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-1"></div>
+</div>
+
+@section scripts{
+    <script src="~/lib/vue/vue.js"></script>
+    <script>
+        $().ready(function () {
+            $("img").addClass("img-responsive");
+        });
+    </script>
+    <script>
+        var app = new Vue({
+            el: "#app",
+            data: {
+                comments: [],
+                commentBody: "",
+                canComment:true
+            },
+            created:function() {
+
+                this.getComments();
+            },
+            methods: {
+                sendComment: function () {
+
+                    var vm = this;
+                    var postId =@Model.Output.Id;
+                    var userName="@ViewData["userName"]";
+
+                    if (vm.commentBody.length<3) {
+                        return;
+                    }
+
+                    var newComment= {
+                        postId: postId,
+                        body: vm.commentBody,
+                        userName: userName,
+                        type:1 // blog
+                    }
+
+                    $.ajax({ url: "/api/blog/comment", data: newComment, method: "POST" })
+                        .done(function (data) {
+                            vm.comments.splice(0, 0, newComment);
+                            vm.canComment = false;
+                        }).fail(function () {
+
+                        });
+                },
+                getComments: function () {
+                    var vm = this;
+                    var postId ="@Model.Output.Id";
+
+                    $.ajax({ url: "/api/blog/comment/"+postId, method: "GET" })
+                        .done(function (data) {
+                            vm.comments = data;
+
+                        }).fail(function () {
+
+                        });
+
+                }
+
+            }
+        });
+    </script>
+}

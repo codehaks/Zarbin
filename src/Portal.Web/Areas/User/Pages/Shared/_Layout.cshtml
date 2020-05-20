@@ -1,0 +1,47 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title | Zarbin </title>
+
+
+    <link href="~/lib/bootstrap/css/bootstrap.css" rel="stylesheet" />
+    <link href="~/lib/bootstrap/css/bootstrap-rtl.css" rel="stylesheet" />
+
+    <link href="~/lib/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/css/site.css" rel="stylesheet" />
+    @RenderSection("styles", required: false)
+
+</head>
+<body class="rtl">
+
+    <partial name="_Navbar" />
+
+    <main role="main" class="container-fluid pt-2">
+        <div class="row">
+
+            <div class="col-3">
+                <partial name="_Sidebar" />
+            </div>
+
+            <div class="col-9">
+                <nav class="navbar navbar-light bg-light shadow-sm">
+                    <span class="navbar-brand">
+                        @ViewBag.Title
+                    </span>
+                    @RenderSection("Navbar", required: false)
+                </nav>
+
+                @RenderBody()
+            </div>
+        </div>
+
+    </main>
+
+    <script src="~/lib/jquery/jquery.js"></script>
+    <script src="~/lib/bootstrap/js/bootstrap.js"></script>
+    <script src="~/lib/font-awesome/js/all.js"></script>
+    @RenderSection("scripts", required: false)
+</body>
+</html>

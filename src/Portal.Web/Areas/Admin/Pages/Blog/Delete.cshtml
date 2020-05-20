@@ -1,0 +1,26 @@
+﻿@page
+@model Portal.Web.DeleteModel
+
+@{
+    ViewData["Title"] = "حذف پست";
+}
+
+<h3>آیا از حذف این پست اطمینان دارید؟</h3>
+<div>
+
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Post.Name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Post.Name)
+        </dd>
+      
+    </dl>
+    
+    <form method="post">
+        <input type="hidden" asp-for="Post.Id" />
+        <input type="submit" value="حذف شود" class="btn btn-danger" /> |
+        <a asp-page="./Index">بازگشت به لیست</a>
+    </form>
+</div>

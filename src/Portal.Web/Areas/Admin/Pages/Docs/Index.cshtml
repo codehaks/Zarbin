@@ -1,0 +1,43 @@
+﻿@page
+@model Portal.Web.Areas.Admin.Pages.Docs.IndexModel
+
+@{
+    ViewData["Title"] = "فایلها";
+}
+
+<br />
+<p>
+    <a asp-page="Create" class="btn btn-primary">آپلود فایل جدید</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                نام
+            </th>
+            <th>
+                فایل
+            </th>
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Doc)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FileName)
+                </td>
+
+                <td>
+                    <a asp-controller="doc" asp-action="GetFile" asp-route-docid="@item.Id" asp-route-name="@item.Name" class="btn btn-dark" asp-area="">نمایش</a>
+                    <a asp-page="./Delete" class="btn btn-danger" asp-route-id="@item.Id">حذف</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

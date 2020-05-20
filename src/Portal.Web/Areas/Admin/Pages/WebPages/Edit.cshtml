@@ -1,0 +1,52 @@
+﻿@page
+@model Portal.Web.Areas.Admin.Pages.WebPages.EditModel
+
+@{
+    ViewData["Title"] = "ویرایش";
+}
+
+<div class="row">
+    <div class="col">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Panel.Name" />
+            <div class="form-group">
+                @*<label asp-for="Panel.Body" class="control-label"></label>*@
+                <input asp-for="Panel.Title" class="form-control" />
+                <span asp-validation-for="Panel.Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                @*<label asp-for="Panel.Body" class="control-label"></label>*@
+                <textarea asp-for="Panel.Body" class="form-control"></textarea>
+                <span asp-validation-for="Panel.Body" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Panel.Hidden" /> @Html.DisplayNameFor(model => model.Panel.Hidden)
+                </label>
+            </div>
+            @*<div class="form-group form-check">
+            <label class="form-check-label">
+                <input class="form-check-input" asp-for="Panel.ReadOnly" /> @Html.DisplayNameFor(model => model.Panel.ReadOnly)
+            </label>
+        </div>*@
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script src="~/lib/ckeditor/ckeditor.js"></script>
+    <script>
+        CKEDITOR.replace('Panel_Body');
+    </script>
+
+}

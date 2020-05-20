@@ -1,0 +1,56 @@
+﻿@page
+@model Portal.Web.Areas.Admin.Pages.Categories.SubsModel
+@{
+    int i = 1;
+    ViewData["title"] = "زیر مجموعه ها";
+}
+
+<br />
+<p>
+    <a asp-page="Create" asp-route-parentid="@Model.ParentId" class="btn btn-primary w-25">جدید</a>
+</p>
+
+@*Level: @Model.Level*@
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        @foreach (var cat in Model.Parents)
+        {
+            <li class="breadcrumb-item"><a asp-page="./subs" asp-route-parentid="@cat.Id">@cat.Name</a></li>
+        }
+
+
+    </ol>
+</nav>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>نام</th>
+            <th></th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var cat in Model.CategoryList)
+        {
+            <tr>
+                <td>@i</td>
+                <td>@cat.Name</td>
+                <td>
+                    @if (Model.Level < 5)
+                    {
+                        <a asp-page="subs" asp-route-parentid="@cat.Id" class="btn btn-primary">زیر مجموعه ها</a>
+                    }
+
+                    <a asp-page="./Edit" asp-route-id="@cat.Id" class="btn btn-light">ویرایش</a>
+                    <a asp-page="./Delete" asp-route-id="@cat.Id" class="btn btn-light">حذف</a>
+
+                </td>
+            </tr>
+            i++;
+        }
+
+    </tbody>
+</table>

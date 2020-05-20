@@ -1,0 +1,59 @@
+﻿@page
+@model Portal.Web.Pages.Shop.IndexModel
+@{
+    ViewData["Title"] = "فروشگاه";
+    Layout = "_LayoutPublic";
+    int i = 1;
+}
+
+@section leader{
+    <div class="jumbotron bg-primary" style="border-radius:0">
+        <h1 class=" text-white">فروشگاه</h1>
+        <p class=" text-white">
+            بهترین محصولات را از فروشگاه ما تهیه کنید
+        </p>
+
+    </div>
+}
+
+
+
+<div class="row">
+    @foreach (var item in Model.ProductList)
+    {
+        <div class="col-sm-4 text-center mb-3">
+            <div class="card">
+                <div class="card-header">@item.Name</div>
+                <a asp-page="details" asp-route-id="@item.Id" class="btn btn-link" asp-route-slug="@(item.Name.ToSlug()+".html")">
+                    <img class="img-fluid" src="@Url.Action("GetImage","Doc",new { DocId=item.DocId,Width=200,Height=300})" style="cursor:pointer" />
+
+                    <br />
+                </a>
+                <div class="card-body">
+                    @if (item.Price == 0)
+                    {
+                        <p>
+                            رایگان
+                        </p>
+                    }
+                    else
+                    {
+                        <p>
+                            @item.Price.CommaSeperated() تومان
+                        </p>
+                    }
+
+                    <a asp-page="details" asp-route-id="@item.Id" class="btn btn-success" asp-route-slug="@(item.Name.ToSlug()+".html")">
+                        خرید
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        @if (i % 3 == 0)
+        {
+            <div class="w-100 d-none d-md-block"></div>
+        }
+        i++;
+    }
+</div>

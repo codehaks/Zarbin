@@ -1,0 +1,42 @@
+﻿@page
+@model Portal.Web.Areas.Admin.Pages.Categories.IndexModel
+
+@{
+    ViewData["Title"] = "مدیریت دسته بندی";
+}
+
+@section navbar{
+
+    <a asp-page="Create" class="btn btn-primary w-25">جدید</a>
+
+}
+
+<table class="table">
+    <thead>
+        <tr>
+
+            <th>
+                @Html.DisplayNameFor(model => model.Category[0].Name)
+            </th>
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Category.Where(c => c.ParentId == null))
+        {
+            <tr>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+
+                <td>
+                    <a asp-page="./subs" asp-route-parentid="@item.Id" class="btn btn-primary">زیر مجموعه ها</a>
+                    <a asp-page="./Edit" asp-route-id="@item.Id" class="btn btn-light">ویرایش</a>
+                    <a asp-page="./Delete" asp-route-id="@item.Id" class="btn btn-light">حذف</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

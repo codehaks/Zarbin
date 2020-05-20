@@ -1,0 +1,93 @@
+﻿@page "/blog/search/{term?}"
+@model Portal.Web.Pages.Blog.SearchModel
+@{
+    ViewData["Title"] = "Search";
+}
+<br />
+
+<div class="row">
+    <div class="col-sm-1"></div>
+    <div class="col-sm-7">
+
+        <div class="card">
+            <div class="card-body bg-primary" >
+
+                <h1 style="color:white">
+                    بلاگ
+                </h1>
+            </div>
+            <div class="card-body">
+                <form asp-page="/blog/Search" method="get" class="form-inline">
+                    <input name="term" asp-for="Term" class="form-control ml-2" asp-route-term="@ViewData[" term"]" />
+                    <button type="submit" class="btn btn-outline-primary">
+                        <i class="fa fa-search"></i>
+                        جستجو
+
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+
+
+
+            @if (Model.Output.Any())
+            {
+                <div class="list-group  list-group-flush" style="padding-right: 0;">
+                    @foreach (var post in Model.Output)
+                    {
+                        <a class="list-group-item list-group-item-action" asp-page="/blog/read" asp-route-id="@post.Id" asp-route-slug="@(post.Name.ToSlug()+".html")">
+
+                            <div class="d-flex w-100 justify-content-between">
+
+                                <h5 class="m-2 text-primary">
+                                    <i class="fa fa-file-text"></i>
+                                    @post.Name
+                                </h5>
+
+                                <small class="text-muted">@post.TimeCreated.ToFullPersianDate()</small>
+                            </div>
+                            <p class="m-2">
+
+                                @post.Summary
+
+                            </p>
+                            <small class="text-muted">@post.Tags</small>
+
+                        </a>
+
+                    }
+                </div>
+            }
+            else
+            {
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        هیچ موردی یافت نشد
+                    </li>
+                </ul>
+            }
+
+
+
+
+            <div class="panel-body">
+                <a asp-page="/blog/index"  class="btn btn-primary">
+                    همه ی مطالب...
+                </a>
+            </div>
+        </div>
+
+
+    </div>
+    <div class="col-sm-3">
+        <div class="card panel-primary">
+            <div class="card-header">فروشگاه</div>
+            <div class="card-body">
+                @*@await Component.InvokeAsync("CourseList", new { viewName = "List", count = 3 })*@
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-1"></div>
+</div>

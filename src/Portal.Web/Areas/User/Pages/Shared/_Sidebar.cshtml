@@ -1,0 +1,24 @@
+﻿
+    <div class="list-group">
+        <a asp-area="user" asp-page="/index" class="list-group-item">
+            <i class="fa fa-home"></i>
+            داشبورد
+        </a>
+    
+        <a asp-area="user" asp-page="/messages/index" class="list-group-item">پیامها <span class="badge badge-pill badge-danger" id="countMessage"></span></a>
+        <a asp-area="user" asp-page="/profile/index" class="list-group-item">پروفایل</a>
+        <a asp-page="/account/manage/changepassword" asp-area="Identity" class="list-group-item">تغییر رمز</a>
+
+    </div>
+
+    <script src="~/lib/jquery/jquery.min.js"></script>
+    <script>
+        $.ajax({
+            url: "/api/NewMessage/",
+            type: "Get",
+            dataType: "Json",
+            success: function (result) {
+                $("#countMessage").html(result);
+            }
+        });
+    </script>

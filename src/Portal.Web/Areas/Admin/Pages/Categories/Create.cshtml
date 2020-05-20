@@ -1,0 +1,33 @@
+﻿@page
+@model Portal.Web.Areas.Admin.Pages.Categories.CreateModel
+
+@{
+    ViewData["Title"] = "دسته بندی جدید";
+}
+
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <input asp-for="ParentId" hidden />
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <label asp-for="Category.Name" class="control-label"></label>
+                <input asp-for="Category.Name" class="form-control" />
+                <span asp-validation-for="Category.Name" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="ثبت" class="btn btn-primary w-50" />
+                <a asp-page="Index">بازگشت به لیست</a>
+            </div>
+
+        
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

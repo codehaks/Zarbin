@@ -1,0 +1,60 @@
+﻿@page
+@model Portal.Web.Pages.Shop.DetailsModel
+@{
+    ViewData["Title"] = "مشخصات";
+}
+
+<h1>@Model.Product.Name</h1>
+<img class="img-fluid" src="@Url.Action("GetImage","Doc",new { DocId=Model.Product.DocId,Width=200,Height=300})" style="cursor:pointer" />
+<p>@Model.Product.Description</p>
+<h2>@Model.Product.Price.CommaSeperated()</h2>
+<a href="#" class="btn btn-primary addToBasket" data-book="@Model.Product.ToJson()">افزودن به سبد خرید</a>
+
+
+@section scripts{
+    <script>
+        let basket = {
+            books: []
+        }
+
+        $(".addToBasket").click(function () {
+            var book = $(this).attr("data-book");
+            addToBasket(JSON.parse(book));
+
+        });
+        function addToBasket(book) {
+            book.Count = 1;
+            if (localStorage && localStorage.getItem('basket')) {
+                basket = JSON.parse(localStorage.getItem('basket'));
+
+                var found = false;
+                for (var i = 0; i < basket.books.length; i++) {
+                    if (basket.books[i].Id == book.Id) {
+                        basket.books[i].Count++;
+                        found = true;
+                        break;
+                    }
+                }
+
+                if (!found) {
+                    book.Count = 1;
+                    basket.books.push(book);
+                }
+                localStorage.setItem('basket', JSON.stringify(basket));
+            } else {
+
+                basket.books.push(book);
+                localStorage.setItem('basket', JSON.stringify(basket));
+            }
+        }
+
+        function bookAlreadyExists(basket, book) {
+            for (var i = 0; i < basket.books; i++) {
+                if (basket.books[i].Id == book.Id) {
+                    return true;
+                }
+            }
+            return false;
+        }
+    </script>
+}

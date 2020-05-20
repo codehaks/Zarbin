@@ -1,0 +1,148 @@
+﻿@page
+@model Portal.Web.Pages.Shop.BasketModel
+@{
+    ViewData["Title"] = "Basket";
+}
+
+@{
+    ViewData["Title"] = "Basket";
+}
+
+<h2>سبد خرید</h2>
+<hr />
+
+<div id="app">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>نام</th>
+                <th>قیمت</th>
+                <th>تعداد</th>
+                <th>جمع</th>
+                <th>
+
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr v-for="(book,index) in books">
+                <td>{{index+1}}</td>
+                <td>{{book.Name}}</td>
+                <td>{{book.Price}} تومان</td>
+                <td>{{book.Count}}</td>
+                <td>{{book.Price*book.Count}} تومان</td>
+                <td>
+                    <button v-on:click="plusCount(book,index)">
+                        <i class="fa fa-plus-circle"></i>
+                    </button>
+                    <button v-on:click="minusCount(book,index)">
+                        <i class="fa fa-minus-circle"></i>
+                    </button>
+                    <button v-on:click="removeItem(book,index)">
+                        <i class="fa fa-trash"></i>
+                    </button>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="4" class="text-right">جمع کل</td>
+                <td class="text-left" colspan="2">{{total}} تومان</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <button v-on:click="sendOrder" class="btn btn-primary btn-lg">ثبت سفارش</button>
+</div>
+
+@section scripts{
+    <script src="~/lib/vue/vue.js"></script>
+
+    <script>
+
+        var app = new Vue({
+            el: "#app",
+            data: {
+                books: [],
+
+            },
+            mounted: function () {
+                this.getBooks();
+            },
+            computed: {
+                total: function () {
+                    var result = 0;
+                    for (var i = 0; i < this.books.length; i++) {
+                        result += this.books[i].Price * this.books[i].Count;
+                    }
+                    return result;
+                }
+            },
+            methods: {
+                plusCount: function (product, index) {
+                    var vm = this;
+                    vm.books[index].Count++;
+                    vm.updateBasket(index, vm.books[index].Count);
+                },
+                minusCount: function (product, index) {
+                    var vm = this;
+                    vm.books[index].Count--;
+                    if (vm.books[index].Count<=0) {
+                        vm.books.splice(index, 1);
+                    }
+                    vm.updateBasket(index, vm.books[index].Count);
+                },
+                removeItem: function (product, index) {
+                    var vm = this;
+                    vm.books.splice(index, 1);
+                },
+                sendOrder: function () {
+                    //alert("Ordering!");
+                    var vm = this;
+
+                    console.log(vm.books);
+
+                    $.ajax({
+                        url: "/order/basket",
+                        dataType: 'json',
+                        //contentType: "application/json",
+                        data: { "books": JSON.stringify(vm.books) },
+                        method: "POST"
+                    })
+                        .done(function (data) {
+                            console.log("Success")
+                        }).fail(function () {
+                            console.log("fail")
+                        }).always(function () {
+                            console.log("End")
+                        });
+
+                },
+                getBooks: function () {
+                    var basketData = localStorage.getItem('basket');
+                    var basket = JSON.parse(basketData);
+                    this.books = basket.books;
+                },
+                updateBasket: function (index, count) {
+
+
+                    if (localStorage && localStorage.getItem('basket')) {
+                        basket = JSON.parse(localStorage.getItem('basket'));
+                        if (count <= 0) {
+                            basket.books.splice(index, 1)
+                        } else {
+                            basket.books[index].Count = count;
+                        }
+
+                        localStorage.setItem('basket', JSON.stringify(basket));
+
+                    } else {
+
+                        return;
+                    }
+
+                }
+            }
+        });
+    </script>
+}
+

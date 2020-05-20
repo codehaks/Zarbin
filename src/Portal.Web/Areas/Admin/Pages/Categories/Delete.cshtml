@@ -1,0 +1,18 @@
+﻿@page
+@model Portal.Web.Areas.Admin.Pages.Categories.DeleteModel
+
+@{
+    ViewData["Title"] = "حذف";
+}
+
+<h3>آیا از حذف این مجموعه اطمینان دارید؟</h3>
+<div>
+    <h4>  @Html.DisplayFor(model => model.Category.Name)</h4>
+   
+    
+    <form method="post">
+        <input type="hidden" asp-for="Category.Id" />
+        <input type="submit" value="حذف" class="btn btn-danger" /> |
+        <a asp-page="subs" asp-route-parentid="@Model.Category.ParentId" class="btn btn-primary">برگشت به لیست</a>
+    </form>
+</div>
